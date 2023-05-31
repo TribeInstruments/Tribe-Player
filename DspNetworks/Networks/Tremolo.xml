@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="Tremolo" AllowCompilation="1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="Tremolo" Bypassed="0" ShowParameters="1">
+    <Nodes>
+      <Node ID="bipolar" FactoryPath="control.bipolar" Bypassed="0">
+        <ModulationTargets>
+          <Connection NodeId="tempo_sync" ParameterId="UnsyncedTime"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Scale" Value="-1.0"/>
+          <Parameter MinValue="0.5" MaxValue="2.0" SkewFactor="0.6309297680854797"
+                     ID="Gamma" Value="1.002064226536776"/>
+        </Parameters>
+      </Node>
+      <Node ID="tempo_sync" FactoryPath="control.tempo_sync" Bypassed="0">
+        <ModulationTargets>
+          <Connection NodeId="converter" ParameterId="Value"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="18.0" StepSize="1.0" ID="Tempo" Automated="1"/>
+          <Parameter MinValue="1.0" MaxValue="16.0" StepSize="1.0" ID="Multiplier"
+                     Value="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="2000.0" StepSize="0.1000000014901161"
+                     ID="UnsyncedTime" Automated="1"/>
+        </Parameters>
+      </Node>
+      <Node ID="converter" FactoryPath="control.converter" Bypassed="0">
+        <Properties>
+          <Property ID="Mode" Value="Ms2Freq"/>
+        </Properties>
+        <ModulationTargets>
+          <Connection NodeId="oscillator" ParameterId="Frequency"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="1.0" ID="Value" Automated="1"/>
+        </Parameters>
+      </Node>
+      <Node ID="modchain" FactoryPath="container.modchain" Bypassed="0">
+        <Nodes>
+          <Node ID="oscillator" FactoryPath="core.oscillator" Bypassed="0">
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="0"/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Automated="1"/>
+              <Parameter MinValue="0.1" MaxValue="20.0" StepSize="0.000000001" SkewFactor="1"
+                         ID="Frequency" Automated="1"/>
+              <Parameter MinValue="1.0" MaxValue="16.0" StepSize="1.0" ID="Freq Ratio"
+                         Value="1.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Gate" Value="1.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Phase" Automated="1"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Gain" Value="1.0"/>
+            </Parameters>
+          </Node>
+          <Node ID="sig2mod" FactoryPath="math.sig2mod" Bypassed="0">
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Value="1.0"/>
+            </Parameters>
+          </Node>
+          <Node ID="peak" FactoryPath="core.peak" Bypassed="0">
+            <ModulationTargets>
+              <Connection NodeId="intensity" ParameterId="Value"/>
+            </ModulationTargets>
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="-1"/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters/>
+          </Node>
+        </Nodes>
+        <Parameters/>
+      </Node>
+      <Node ID="intensity" FactoryPath="control.intensity" Bypassed="0">
+        <ModulationTargets>
+          <Connection NodeId="gain" ParameterId="Gain"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Intensity" Automated="1"/>
+        </Parameters>
+      </Node>
+      <Node ID="gain" FactoryPath="core.gain" Bypassed="0">
+        <Parameters>
+          <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
+                     SkewFactor="1.436174114910377" ID="Gain" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
+                     SkewFactor="0.3010300099849701" ID="Smoothing" Automated="1"/>
+          <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
+                     SkewFactor="5.422270774841309" ID="ResetValue" Value="0.0"/>
+        </Parameters>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="Intensity" MinValue="0.0" MaxValue="1.0" Value="0.0">
+        <Connections>
+          <Connection NodeId="intensity" ParameterId="Intensity"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Mode" MinValue="0.0" MaxValue="4.0" StepSize="1.0" Value="0.0">
+        <Connections>
+          <Connection NodeId="oscillator" ParameterId="Mode"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Speed" MinValue="0.0" MaxValue="1.0" Value="0.4887755126953124">
+        <Connections>
+          <Connection NodeId="bipolar" ParameterId="Value"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="TempoSync" MinValue="0.0" MaxValue="1.0" StepSize="1.0" Value="1.0">
+        <Connections>
+          <Connection NodeId="tempo_sync" ParameterId="Enabled"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Phase" MinValue="0.0" MaxValue="1.0" Value="0.0">
+        <Connections>
+          <Connection NodeId="oscillator" ParameterId="Phase"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Smooth" MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
+                 SkewFactor="0.3010300099849701" Value="25.70000038295984">
+        <Connections>
+          <Connection NodeId="gain" ParameterId="Smoothing"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="SpeedSynced" MinValue="0.0" MaxValue="18.0" StepSize="1.0"
+                 Value="6.0">
+        <Connections>
+          <Connection NodeId="tempo_sync" ParameterId="Tempo"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
+  </Node>
+</Network>

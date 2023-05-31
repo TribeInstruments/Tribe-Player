@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="chorus" Version="0.0.0" AllowCompilation="1">
+  <Node FactoryPath="container.chain" ID="chorus" Bypassed="0" ShowParameters="1">
+    <Nodes>
+      <Node ID="smoothed_parameter" FactoryPath="control.smoothed_parameter"
+            Bypassed="0">
+        <Properties>
+          <Property ID="Mode" Value="Linear Ramp"/>
+        </Properties>
+        <ModulationTargets>
+          <Connection NodeId="jchorus" ParameterId="CentreDelay"/>
+          <Connection NodeId="jchorus1" ParameterId="CentreDelay"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="1000.0" StepSize="0.1000000014901161"
+                     ID="SmoothingTime" Value="479.5000071451068"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="multi" FactoryPath="container.multi" Bypassed="0">
+        <Nodes>
+          <Node ID="jchorus" FactoryPath="jdsp.jchorus" Bypassed="0">
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="100.0" ID="CentreDelay" Automated="1"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Depth" Automated="1"/>
+              <Parameter MinValue="-1.0" MaxValue="1.0" ID="Feedback" Value="0.04557812500000002"/>
+              <Parameter MinValue="0.0" MaxValue="100.0" SkewFactor="0.3010300099849701"
+                         ID="Rate" Value="1.510931593928267"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Mix" Automated="1"/>
+            </Parameters>
+          </Node>
+          <Node ID="jchorus1" FactoryPath="jdsp.jchorus" Bypassed="0">
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="100.0" ID="CentreDelay" Automated="1"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Depth" Automated="1"/>
+              <Parameter MinValue="-1.0" MaxValue="1.0" ID="Feedback" Value="0.04557812500000002"/>
+              <Parameter MinValue="0.0" MaxValue="100.0" SkewFactor="0.3010300099849701"
+                         ID="Rate" Value="0.9725756203807023"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Mix" Automated="1"/>
+            </Parameters>
+          </Node>
+        </Nodes>
+        <Parameters/>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="ChorusMix" MinValue="0.0" MaxValue="1.0" Value="0.0">
+        <Connections>
+          <Connection NodeId="jchorus" ParameterId="Mix"/>
+          <Connection NodeId="jchorus1" ParameterId="Mix"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="ChorusDepth" MinValue="0.0" MaxValue="1.0" Value="0.376893310546875">
+        <Connections>
+          <Connection NodeId="jchorus" ParameterId="Depth"/>
+          <Connection NodeId="jchorus1" ParameterId="Depth"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="ChorusDelay" MinValue="0.0" MaxValue="1.0" Value="0.3475764160156251">
+        <Connections>
+          <Connection NodeId="smoothed_parameter" ParameterId="Value"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
+  </Node>
+</Network>
